@@ -1,8 +1,6 @@
 import React from 'react';
 import Product from '../components/Product';
 import products from '../products';
-// import { RouteComponentProps } from 'react-router-dom';
- 
 
 const HomeScreen = () => {
   return (
