@@ -1,10 +1,8 @@
 import React from 'react';
 import Product from '../components/Product';
 import products from '../products';
-// import { RouteComponentProps } from 'react-router-dom';
- 
 
-const HomeScreen = () => {
+const ProductScreen = () => {
   return (
     <div className="container">
       <p className="h1">Latest Products</p>
@@ -19,4 +17,4 @@ const HomeScreen = () => {
   )
 }
 
-export default HomeScreen;
+export default ProductScreen;

@@ -9,7 +9,7 @@ const Header = (props: any) => {
 
   return (
     <header>
-      <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
+      <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
         <div className="container-fluid">
           <a className="navbar-brand" href="/">ProShop</a>
           <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded={!isNavbarCollapsed ? true : false} aria-label="Toggle navigation" onClick={handleNavCollapse}>
@@ -18,7 +18,7 @@ const Header = (props: any) => {
           <div className={`${isNavbarCollapsed ? 'collapse' : ' '} navbar-collapse`} id="navbarSupportedContent">
             <ul className="navbar-nav ml-auto">
               <li className="nav-item"> 
-                <a className="nav-link active" aria-current="page" href="/cart">
+                <a className="nav-link" aria-current="page" href="/cart">
                   <i className='fas fa-shopping-cart'>Cart</i>
                 </a>
               </li>
@@ -31,7 +31,7 @@ const Header = (props: any) => {
           </div>
         </div>
       </nav>
-    </header>
+    </header> 
   )
 }
 
