@@ -14,7 +14,7 @@ function App() {
            {/* https://stackoverflow.com/questions/69866581/property-exact-does-not-exist-on-type */}
           <Routes>
             <Route path='/' element={ <HomeScreen/> }  />
-            <Route path='/product/:id' element={ <ProductScreen/> }  />
+            <Route path='/product/:id' element={ <ProductScreen /> }  />
           </Routes>
         </div>
       </main>
