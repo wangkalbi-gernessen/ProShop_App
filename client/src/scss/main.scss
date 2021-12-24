@@ -1,8 +1,14 @@
 // Index.tsx & App.tsx
 $body-bg: #F08080;
  
+
+
+
 // Header.tsx 
 $navbar-dark-hover-color: yellow;
-$navbar-toggle-hover-bg: green;
+$navbar-dark-color: rgb(255, 255, 255);
+$navbar-toggler-padding-y:          0.5rem;
+$navbar-toggler-padding-x:          1rem;
+$navbar-toggler-border-radius: 50px;
 
 @import '~bootstrap/scss/bootstrap.scss';
