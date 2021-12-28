@@ -1,28 +1,31 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import Rating from '../components/Rating';
-import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { listProductDetails } from '../actions/productActions';
+import Loader from '../components/Loader';
+import Message from '../components/Message';
 
 const ProductScreen = ({props}: any) => {
-  const [product, setProduct] = useState({ });
   const { id } = useParams();
   const toNum = Number(id);
   const rating = Number((product as any).rating);
   const stock = Number((product as any).countInStock);
 
+  const dispatch = useDispatch();
+
+  const productDetails = useSelector((state: any) => state.productDetails)
+  const { loading, error, products} = productDetails;
+
   useEffect(() => {
-    const fetchProduct = async() => {
-      const { data } = await axios.get(`/api/products/${toNum}`);
-      // console.log(data);
-      setProduct({...product, ...data});
-    }
-    fetchProduct();
-  },[]);
+    dispatch(listProductDetails(toNum));
+  },[dispatch, props]);
 
   return (
     <>
       <Link to='/' className='btn btn-dark my-3' >Go Back</Link>
-      <div className="row">
+      { loading ? <Loader/> : error ? <Message variant="danger">{error}</Message> : (
+        <div className="row">
         <div className="col-md-6">
           <img src={(product as any).image} alt={(product as any).image} className="img-fluid" />
         </div>
@@ -69,6 +72,7 @@ const ProductScreen = ({props}: any) => {
           </div>
         </div>
       </div>
+      )}
     </>
   )
 }
