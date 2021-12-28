@@ -4,12 +4,13 @@ import asyncHandler from 'express-async-handler';
 
 const router = express.Router();
 
-
 // @desc Fetch all products
 // @route Get /api/products
 // @access Public
 router.get('/' , asyncHandler(async(req: Request, res: Response) => {
-  const products = await ProductModel.find({ })
+  const products = await ProductModel.find({ });
+  // res.status(401);
+  // throw new Error('Not Authorized');
   res.json(products);
 }));
 
@@ -21,7 +22,8 @@ router.get('/:id' , asyncHandler(async(req: Request, res: Response) => {
   if(product) {
     res.json(product);
   } else {
-    res.status(404).json({ message: 'Product not found'});
+    res.status(404)
+    throw new Error('Product not found');
   }
 })); 
 
