@@ -6,25 +6,25 @@ import { listProductDetails } from '../actions/productActions';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 
-const ProductScreen = ({props}: any) => {
+const ProductScreen = ({ match }: any) => {
   const { id } = useParams();
-  const toNum = Number(id);
+  
+  const dispatch = useDispatch();
+  
+  const productDetails = useSelector((state: any) => state.productDetails)
+  const { loading, error, product } = productDetails;
+  
   const rating = Number((product as any).rating);
   const stock = Number((product as any).countInStock);
 
-  const dispatch = useDispatch();
-
-  const productDetails = useSelector((state: any) => state.productDetails)
-  const { loading, error, products} = productDetails;
-
   useEffect(() => {
-    dispatch(listProductDetails(toNum));
-  },[dispatch, props]);
+    dispatch(listProductDetails(id));
+  },[dispatch, id, match]);
 
   return (
     <>
       <Link to='/' className='btn btn-dark my-3' >Go Back</Link>
-      { loading ? <Loader/> : error ? <Message variant="danger">{error}</Message> : (
+      { loading ? <Loader/> : error ? <Message variant="danger">{ error }</Message> : (
         <div className="row">
         <div className="col-md-6">
           <img src={(product as any).image} alt={(product as any).image} className="img-fluid" />
@@ -33,8 +33,7 @@ const ProductScreen = ({props}: any) => {
           <ul className="list-group list-group-flush">
             <li className='list-group-item'>{ (product as any).name }</li>
             <li className='list-group-item'>
-              {(product as any).rating}
-              <Rating value={rating } text={`${(product as any).numReviews} reveiws`} color="red" />
+              <Rating value={ rating } text={`${(product as any).numReviews} reveiws`} color="red" />
             </li>
             <li className='list-group-item'>Price: ${(product as any).price}</li>
             <li className='list-group-item'>Description: {(product as any).description}</li>

@@ -17,7 +17,7 @@ const Product = ( { product }: any ) => {
         <div className="card-text">
           <Rating value={product.rating} text={`${product.numReviews} reviews`} color="red"/>
         </div>
-        <p className="h3 card-text">{product.price}</p>
+        <p className="h3 card-text">{`$ ${product.price}`}</p>
       </div>
     </div>
   )

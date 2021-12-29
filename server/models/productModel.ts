@@ -1,4 +1,4 @@
-import mongoose, { model, Schema } from 'mongoose';
+import mongoose, { model, Schema, ObjectId } from 'mongoose';
 
 // Create an interface for Review
 interface Review {
@@ -9,7 +9,7 @@ interface Review {
 
 // Create an interface for Product
 interface Product {
-  user: mongoose.Schema.Types.ObjectId,
+  user: ObjectId,
   name: string,
   image: string, 
   brand: string,

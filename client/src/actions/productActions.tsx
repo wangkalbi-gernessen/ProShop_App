@@ -8,12 +8,15 @@ export const listProducts = () =>async (dispatch: any) => {
     
     dispatch({ type: PRODUCT_LIST_SUCCESS, payload: data  });
   } catch (error: any) {
-    dispatch({ type: PRODUCT_LIST_FAIL, payload: error.response && error.response.data.message ? error.response.data.message : error.message,  });
+    dispatch({ 
+      type: PRODUCT_LIST_FAIL, 
+      payload: error.response && error.response.data.message ? error.response.data.message : error.message,  });
   }
 } 
 
-export const listProductDetails = (id: number) =>async (dispatch: any) => {
+export const listProductDetails = (id: any) =>async (dispatch: any) => {
   try {
+    console.log(id);
     dispatch({ type: PRODUCT_DETAILS_REQUEST });
     const { data } = await axios.get(`/api/products/${id}`);
     

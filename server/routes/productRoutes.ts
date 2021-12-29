@@ -9,8 +9,6 @@ const router = express.Router();
 // @access Public
 router.get('/' , asyncHandler(async(req: Request, res: Response) => {
   const products = await ProductModel.find({ });
-  // res.status(401);
-  // throw new Error('Not Authorized');
   res.json(products);
 }));
 
