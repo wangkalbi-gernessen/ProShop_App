@@ -1,14 +1,18 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import Rating from '../components/Rating';
 import { useDispatch, useSelector } from 'react-redux';
 import { listProductDetails } from '../actions/productActions';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
+import { useNavigate } from 'react-router-dom';
 
-const ProductScreen = ({ match }: any) => {
+const ProductScreen = (match: any) => {
   const { id } = useParams();
-  
+  const navigate = useNavigate();
+
+  const [quantity, setQuantity] = useState(0);
+
   const dispatch = useDispatch();
   
   const productDetails = useSelector((state: any) => state.productDetails)
@@ -20,6 +24,10 @@ const ProductScreen = ({ match }: any) => {
   useEffect(() => {
     dispatch(listProductDetails(id));
   },[dispatch, id, match]);
+
+  const addToCartHandler = () => {
+    navigate(`/cart/${id}?qty=${quantity}`);
+  }
 
   return (
     <>
@@ -62,9 +70,23 @@ const ProductScreen = ({ match }: any) => {
                   </div>
                 </div>
               </li>
+              { product.countInStock > 0 && (
+                <li className='list-group-item'>
+                <div className="row">
+                  <div className="col">Quantity</div>
+                  <div className="col">
+                    <select className="form-select" aria-label="Default select example" value={quantity} onChange={(e) => setQuantity(Number(e.target.value))}>
+                      {[...Array((product as any).countInStock).keys()].map((x: number) => (
+                        <option key={ x + 1 } value={ x + 1}>{ x + 1}</option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+              </li>
+              )}
               <li className='list-group-item'>
                 <div className="d-grid gap-2 col-12 mx-auto">
-                  <button className="btn btn-dark" type="button" disabled={stock === 0}>Add To Cart</button>
+                  <button className="btn btn-dark" type="button" disabled={stock === 0} onClick={addToCartHandler}>Add To Cart</button>
                 </div>
               </li>
             </ul>
