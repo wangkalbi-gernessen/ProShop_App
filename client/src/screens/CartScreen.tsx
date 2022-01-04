@@ -8,38 +8,39 @@ import Message from '../components/Message';
 
 const CartScreen = () => {
   const { id } = useParams();
-  const location = useLocation();
+  const { search } = useLocation();
   const navigate = useNavigate();
-  const qty = location.search ? Number(location.search.split('=')[1]) : 1;
+  const productId = id;
+  const qty = search ? Number(search.split('=')[1]) : 1;
 
   const dispatch = useDispatch();
 
   const cart = useSelector((state: any) => state.cart);
   const { cartItems } = cart;
-
   console.log(cartItems);
-
+  
   useEffect(() => {
-    if(id) {
-      dispatch(addToCart(id, qty));
+    if(productId) {
+      dispatch(addToCart(productId, qty));
     }
-  }, [dispatch, id, qty]);
-
-  const removeFromCartHandler = (id: any) => {
-    dispatch(removeFromCart(id));
+  }, [dispatch, productId, qty]);
+  
+  const removeFromCartHandler = (productId: any) => {
+    dispatch(removeFromCart(productId));
   }
   
   const checkoutHandler = () => {
     navigate('/login?redirect=shopping');
   }
-
+  
   return (
     <div className="container">
       <div className="row">
         <div className="col-md-8">
           <p className='h1'>Shopping Cart</p>
-          { cartItems.length === 0 ? 
-          ( <Message>Your cart is empty <Link to='/'>Go Back</Link></Message>
+          { cartItems.length === 0 ? ( 
+          <Message>Your cart is empty <Link to='/'>Go Back</Link>
+          </Message>
           ) : (
             <ul className='list-group list-group-flush'>
               { cartItems.map((item: any) => (
@@ -52,7 +53,7 @@ const CartScreen = () => {
                       <Link to={`/product/${item.product}`}>{item.name}</Link>
                     </div>
                     <div className="col-md-2">${item.price}</div>
-                    <div className="col-md-2">
+                    <div   className="col-md-2">
                       <select className="form-select" aria-label="Default select example" value={item.qty} onChange={(e) => dispatch(addToCart(item.product, Number(e.target.value)))}>
                         {[...Array((item as any).countInStock).keys()].map((x: number) => (
                           <option key={ x + 1 } value={ x + 1}>{ x + 1}</option>
@@ -68,14 +69,15 @@ const CartScreen = () => {
                 </li>
               ))}
             </ul>
-          ) } 
+          )} 
         </div>
         <div className="col-md-4">
           <div className="card">
             <ul className='list-group list-group-flush'>
               <li className="list-group-item">
-                <p className="h2">Subtotal () items ({cartItems.reduce((acc: any, item: any) => acc + item.qty + 0)}</p>
-                ${cartItems.reduce((acc: any, item: any) => acc + item.qty * item.price, 0).toFixed(2)}
+                {/* <p className='h2'></p> */}
+                <p className="h2">Subtotal  ({cartItems.reduce((acc: any, item: any) =>  Number(acc) + Number(item.quantity), 0)}) items</p>
+                ${cartItems.reduce((acc: any, item: any) => Number(acc) + Number(item.quantity) * Number(item.price), 0).toFixed(2)}
               </li>
               <li className="list-group-item">
                 <button type="button" disabled={cartItems.length === 0} onClick={checkoutHandler}>Proceed To Checkout
@@ -83,7 +85,7 @@ const CartScreen = () => {
               </li>
             </ul>
           </div>
-        </div>
+        </div>  
       </div>
     </div>
   )
