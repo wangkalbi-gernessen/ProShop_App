@@ -5,6 +5,7 @@ import Header from './components/Header';
 import HomeScreen from './screens/HomeScreen';
 import ProductScreen from './screens/ProductScreen';
 import CartScreen from './screens/CartScreen';
+import LoginScreen from './screens/LoginScreen';
 
 function App() {
   return (
@@ -14,8 +15,9 @@ function App() {
         <div className="container">
            {/* https://stackoverflow.com/questions/69866581/property-exact-does-not-exist-on-type */}
           <Routes>
+            <Route path='/login' element={ <LoginScreen/> } />
             <Route path='/' element={ <HomeScreen/> }  />
-            <Route path='/product/:id' element={ <ProductScreen /> }  />
+            <Route path='/product/:id' element={ <ProductScreen /> } />
             <Route path='/cart/:id' element={ <CartScreen /> }  />
           </Routes>
         </div>
