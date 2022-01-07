@@ -1,8 +1,8 @@
-import mongoose, { model, Schema } from 'mongoose';
+import mongoose, { Types, model, Schema } from 'mongoose';
 
 // Create an interface for Order
 interface Order {
-  user: mongoose.Schema.Types.ObjectId,
+  user: Types.ObjectId,
   orderItems: any,
   shippingAddress: any, 
   paymentMethod: string,
@@ -18,14 +18,14 @@ interface Order {
 
 // Create a Schema for Order 
 const orderSchema = new Schema<Order>({
-  user: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'User'},
+  user: { type: Types.ObjectId, required: true, ref: 'User'},
   orderItems: [
     {
       name: { type: String, required: true},
       quantity: {type: Number, required: true},
       image: {type: String, required: true},
       price: {type: Number, required: true},
-      product: {type: mongoose.Schema.Types.ObjectId, required: true, ref: 'Product'},
+      product: {type: Types.ObjectId, required: true, ref: 'Product'},
     }
   ],
   shippingAddress: { 
