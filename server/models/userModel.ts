@@ -1,7 +1,8 @@
-import mongoose, { model, Schema } from 'mongoose';
+import mongoose, { Document, model, Schema } from 'mongoose';
+import bcrypt from 'bcryptjs';
 
 // Create an interface
-interface User {
+export interface User {
   name: string,
   email: string, 
   password: string,
@@ -16,7 +17,12 @@ const userSchema = new Schema<User>({
   isAdmin: { type: Boolean, required: true, default: false },
 }, {
   timestamps: true
-})
+});
+
+userSchema.methods.matchPassword = async(enteredPassword: any) => {
+  let user: any = this;
+  return  await bcrypt.compare(enteredPassword, user.password);
+} 
 
 // Create a Model 
 const UserModel = model<User>('User', userSchema);
