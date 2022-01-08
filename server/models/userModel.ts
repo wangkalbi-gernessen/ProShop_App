@@ -21,6 +21,7 @@ const userSchema = new Schema<User>({
 
 userSchema.methods.matchPassword = async(enteredPassword: any) => {
   let user: any = this;
+  console.log(this);
   return  await bcrypt.compare(enteredPassword, user.password);
 } 
 
@@ -38,3 +39,7 @@ userSchema.pre('save', async function(next){
 const UserModel = model<User>('User', userSchema);
 
 export default UserModel;
+
+function password(enteredPassword: any, password: any): any {
+  throw new Error('Function not implemented.');
+}

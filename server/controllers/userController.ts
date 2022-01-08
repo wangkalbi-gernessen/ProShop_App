@@ -5,9 +5,9 @@ import generateToken from '../utils/generateToken';
 
 declare global {
   namespace Express {
-      interface Request {
-          user? : Record<string,any>
-      }
+    interface Request {
+        user? : Record<string,any>
+    }
   }
 }
 
@@ -16,7 +16,6 @@ declare global {
 // @access Public
 const authUser = asyncHandler(async (req: Request, res: Response) => {
   const { email, password } = req.body;
-  
   const user: any  = await UserModel.findOne({ email });
 
   if(user && (await user.matchPassword(password))) {
@@ -34,7 +33,7 @@ const authUser = asyncHandler(async (req: Request, res: Response) => {
 });
 
 // @desc Register a new user
-// @route Post /api/users/login
+// @route GET /api/users/login
 // @access Public
 const registerUser = asyncHandler(async (req: Request, res: Response) => {
   const { name, email, password } = req.body;
@@ -82,7 +81,6 @@ const getUserProfile = asyncHandler(async (req: Request, res: Response) => {
   } else {
     res.status(404);
     throw new Error('User not found');
-    
   }
 });
 

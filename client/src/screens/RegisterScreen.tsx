@@ -5,26 +5,31 @@ import { useLocation } from 'react-router-dom';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
 import FormContainer from '../components/FormContainer';
-import { login } from '../actions/userActions';
+import { login, register } from '../actions/userActions';
 
 
-const LoginScreen = () => {
+const RegisterScreen = () => {
   const { search } = useLocation();
   const navigate = useNavigate();
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [message, setMessage] = useState("");
 
   const dispatch = useDispatch(); 
-  const userLogin = useSelector((state: any) => state.userLogin);
-  const { loading, error, userInfo } = userLogin;
+  const userRegister = useSelector((state: any) => state.userRegister);
+  const { loading, error, userInfo } = userRegister;
   
   const redirect = search ? search.split('=')[1] : '/';
 
   const submitHandler = (e: any) => {
     e.preventDefault();
-    // console.log(email);
-    // console.log(password);
-    dispatch(login(email, password));
+    if(password !== confirmPassword) {
+      setMessage('Password do not match');
+    } else {
+      dispatch(register(name, email, password));
+    }
   }
   
   useEffect(() => {
@@ -36,10 +41,15 @@ const LoginScreen = () => {
   return (
     <div className="container">
       <FormContainer>
-        <p className="h1">Sign In</p>
+        <p className="h1">Sign Up</p>
+        { message && <Message variant='danger'>{message}</Message> }
         { error && <Message variant='danger'>{error}</Message> }
         { loading && <Loader/> }
         <form onSubmit={submitHandler}>
+          <div className="mb-3">
+            <label htmlFor="name" className="form-label">Name</label>
+            <input type="text" className="form-control" id="name" placeholder='Enter name' value={name} onChange={(e) => setName(e.target.value)} />
+          </div>
           <div className="mb-3">
             <label htmlFor="email" className="form-label">Email address</label>
             <input type="email" className="form-control" id="email" placeholder='Enter email' value={email} onChange={(e) => setEmail(e.target.value)} />
@@ -49,13 +59,17 @@ const LoginScreen = () => {
             <input type="password" className="form-control" id="password" placeholder='Enter password' value={password} onChange={(e) => setPassword(e.target.value)} />
           </div>
           <div className="mb-3">
-            <button className="btn btn-primary" type="submit" >Sign In</button>
+            <label htmlFor="confirmPassword" className="form-label">Confirm Password</label>
+            <input type="password" className="form-control" id="confirmPassword" placeholder='Confirm password' value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
+          </div>
+          <div className="mb-3">
+            <button className="btn btn-primary" type="submit" >Register</button>
           </div>
         </form>
         <div className="row py-3">
           <div className="col">
-            New Customer ? <Link to={redirect ? `/register?redirect=${redirect}` : '/register'}>
-              Register
+            Have an Account ? <Link to={redirect ? `/login?redirect=${redirect}` : '/login'}>
+              Login
             </Link>
           </div>
         </div>
@@ -64,4 +78,4 @@ const LoginScreen = () => {
   )
 }
 
-export default LoginScreen;
+export default RegisterScreen;
