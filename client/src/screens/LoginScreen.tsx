@@ -22,8 +22,6 @@ const LoginScreen = () => {
 
   const submitHandler = (e: any) => {
     e.preventDefault();
-    // console.log(email);
-    // console.log(password);
     dispatch(login(email, password));
   }
   

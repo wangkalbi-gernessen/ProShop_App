@@ -2,15 +2,15 @@ import mongoose, { Document, model, Schema } from 'mongoose';
 import bcrypt from 'bcryptjs';
 
 // Create an interface
-export interface User extends mongoose.Document {
+export interface User extends Document {
   name: string,
   email: string, 
   password: string,
-  isAdmin: boolean
+  isAdmin: boolean,
 }
 
 // Create a Schema
-const userSchema = new Schema<User>({
+export const userSchema = new Schema<User>({
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
@@ -19,10 +19,18 @@ const userSchema = new Schema<User>({
   timestamps: true
 });
 
-userSchema.methods.matchPassword = async(enteredPassword: any) => {
+userSchema.methods.matchPassword = async(password: any) => {
   let user: any = this;
-  console.log(this);
-  return  await bcrypt.compare(enteredPassword, user.password);
+  // return await bcrypt.compare(enteredPassword, user.password);
+  const enteredPassword: string = password.toString();
+  const passwordBd: string = user.password;
+
+  let isValid = await bcrypt.compare(enteredPassword, "123456");
+  if((typeof isValid) === "string") {
+    return true;
+  } else {
+    return false;
+  }
 } 
 
 userSchema.pre('save', async function(next){
