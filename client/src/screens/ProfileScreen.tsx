@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
-import { getUserDetails } from '../actions/userActions';
+import { getUserDetails, updateUserProfile } from '../actions/userActions';
 
 
 const ProfileScreen = () => {
@@ -23,12 +23,17 @@ const ProfileScreen = () => {
 
   const userLogin = useSelector((state: any) => state.userLogin);
   const { userInfo } = userLogin;
+  
+  const userUpdateProfile = useSelector((state: any) => state.userUpdateProfile);
+  const { success } = userUpdateProfile;
 
   const submitHandler = (e: any) => {
     e.preventDefault();
     if(password !== confirmPassword) {
       setMessage('Password do not match');
-    } 
+    } else {
+      dispatch(updateUserProfile({ id: user._id, name, email, password }))
+    }
   }
   
   useEffect(() => {
@@ -51,6 +56,7 @@ const ProfileScreen = () => {
           <p className="h1">User Profile</p>
           { message && <Message variant='danger'>{message}</Message> }
           { error && <Message variant='danger'>{error}</Message> }
+          { success && <Message variant='danger'>Profile Updated</Message> }
           { loading && <Loader/> }
           <form onSubmit={submitHandler}>
             <div className="mb-3">
