@@ -92,10 +92,10 @@ const updateUserProfile = asyncHandler(async (req: Request, res: Response) => {
   const user: any = await UserModel.findById((req.user as any)._id);
 
   if(user) {
-    user.name = req.body.name.toString() || user.name.toString();
-    user.email = req.body.email.toString() || user.email.toString();
+    user.name = req.body.name || user.name;
+    user.email = req.body.email || user.email;
     if(req.body.password) {
-      user.password = req.body.password.toString();
+      user.password = req.body.password;
     }
 
     const updatedUser: any = await user.save();
