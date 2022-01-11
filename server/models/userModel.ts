@@ -19,28 +19,21 @@ export const userSchema = new Schema<User>({
   timestamps: true
 });
 
-userSchema.methods.matchPassword = async(password: any) => {
-  let user: any = this;
-  // return await bcrypt.compare(enteredPassword, user.password);
+userSchema.methods.matchPassword = async(password: any, userPassword: any) => {
   const enteredPassword: string = password.toString();
-  const passwordBd: string = user.password;
+  const storedPassword: string = userPassword.toString();
 
-  let isValid = await bcrypt.compare(enteredPassword, "123456");
-  if((typeof isValid) === "string") {
-    return true;
-  } else {
-    return false;
-  }
-} 
+  return await bcrypt.compare(enteredPassword, storedPassword);
+}
 
 userSchema.pre('save', async function(next){
-  let user: any = this;
   if(!this.isModified('password')) {
     next();
   }
+  
+  const salt: number = Number(bcrypt.genSalt(10));
 
-  const salt: any = bcrypt.genSalt(10);
-  user.password = await bcrypt.hash(user.password, salt);
+  this.password = await bcrypt.hash(String(this.password), salt);
 });
 
 // Create a Model 

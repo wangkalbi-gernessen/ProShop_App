@@ -4,6 +4,7 @@ import { logout } from '../actions/userActions';
 
 const Header = (props: any) => {
   const [isNavbarCollapsed, setIsNavbarCollapsed] = useState(true);
+  const [dropdown, setDropdown] = useState(false);
   const userLogin = useSelector((state: any) => state.userLogin);
   const { userInfo } = userLogin;
   const dispatch = useDispatch();
@@ -15,6 +16,8 @@ const Header = (props: any) => {
   const logoutHandler = () => {
     dispatch(logout());
   }
+
+  const toggleDropdownOpen = () => setDropdown(!dropdown);
 
   return (
     <header>
@@ -33,13 +36,13 @@ const Header = (props: any) => {
               </li>
               { userInfo ? (
               <div className="dropdown">
-                <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">{userInfo.name}</button>
-                <ul className="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" onClick={toggleDropdownOpen}>{userInfo.name}</button>
+                <ul className={`dropdown-menu ${dropdown ? 'show' : ' '}`} aria-labelledby="dropdownMenuButton1">
                   <li>
                     <a className="dropdown-item" href='/profile'>Profile</a>
                   </li>
                   <li>
-                    <a className="dropdown-item" onClick={logoutHandler}>Logout</a>
+                    <a className="dropdown-item" onClick={logoutHandler} href='/'>Logout</a>
                   </li>
                 </ul>
               </div>
