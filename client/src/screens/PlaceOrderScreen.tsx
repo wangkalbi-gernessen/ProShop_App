@@ -1,10 +1,13 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
 import CheckoutSteps from '../components/CheckoutSteps';
 import Message from '../components/Message';
+import { createOrder } from '../actions/orderActions';
 
 const PlaceOrderScreen = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const cart = useSelector((state: any) => state.cart);
   const addDecimals = (num: number) => {
     return (Math.round(num * 100)/100).toFixed(2);
@@ -14,9 +17,25 @@ const PlaceOrderScreen = () => {
   cart.taxPrice = addDecimals(Number((0.15 * cart.itemPrice).toFixed(2)));
   cart.totalPrice = Number(cart.itemPrice) + Number(cart.shippingPrice) + Number(cart.taxPrice).toFixed(2);
 
-  const placeOrderHandler = () => {
-    // const cart = 
+  const orderCreate = useSelector((state: any) => state.orderCreate);
+  const { order, success, error } = orderCreate;
   
+  useEffect(() => {
+    if(success) {
+      navigate(`/order/${order._id}`);
+    }
+  }, [navigate, order._id, success]);
+  
+  const placeOrderHandler = () => {
+    dispatch(createOrder({
+      orderItems: cart.cartItems,
+      shippingAddress: cart.shippingAddress,
+      paymentMethod: cart.paymentMethod,
+      itemsPrice: cart.itemsPrice,
+      shippingPrice: cart.shippingPrice,
+      taxPrice: cart.taxPrice,
+      totalPrice: cart.totalPrice,
+    }));
   }
 
   return (
@@ -95,6 +114,9 @@ const PlaceOrderScreen = () => {
                   <div className="col">Total</div>
                   <div className="col">${cart.totalPrice}</div>
                 </div>
+              </li>
+              <li className='list-group-item'>
+                {error && <Message variant='danger'>{error}</Message>}
               </li>
               <li className='list-group-item'>
                 <button className="btn btn-primary" type="submit" disabled={cart.cartItems === 0} onClick={placeOrderHandler} >Place Order</button>
