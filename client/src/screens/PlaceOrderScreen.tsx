@@ -11,21 +11,24 @@ const PlaceOrderScreen = () => {
   const cart = useSelector((state: any) => state.cart);
   const addDecimals = (num: number) => {
     return (Math.round(num * 100)/100).toFixed(2);
-  }
+  } 
   cart.itemPrice = addDecimals(cart.cartItems.reduce((acc: any, item: any) => Number(acc) + Number(item.price) * Number(item.quantity), 0));
   cart.shippingPrice = addDecimals(cart.cartItems > 100 ? 0 : 100);
   cart.taxPrice = addDecimals(Number((0.15 * cart.itemPrice).toFixed(2)));
   cart.totalPrice = Number(cart.itemPrice) + Number(cart.shippingPrice) + Number(cart.taxPrice).toFixed(2);
 
   const orderCreate = useSelector((state: any) => state.orderCreate);
-  const { order, success, error } = orderCreate;
+  const { order, success, error }  = orderCreate;
   
+  // useEffect(() => {
+  //   if(success) {
+  //     navigate(`/order/${order._id}`);
+  //   }
+  // }, [navigate, order._id, success]);
   useEffect(() => {
-    if(success) {
-      navigate(`/order/${order._id}`);
-    }
-  }, [navigate, order._id, success]);
-  
+    console.log(orderCreate);
+  }, [success]);
+
   const placeOrderHandler = () => {
     dispatch(createOrder({
       orderItems: cart.cartItems,
