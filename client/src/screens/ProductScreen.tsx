@@ -30,7 +30,7 @@ const ProductScreen = (match: any) => {
   }
 
   return (
-    <>
+    <div className="container">
       <Link to='/' className='btn btn-dark my-3' >Go Back</Link>
       { loading ? <Loader/> : error ? <Message variant="danger">{ error }</Message> : (
         <div className="row">
@@ -94,7 +94,7 @@ const ProductScreen = (match: any) => {
           </div>
         </div>
       )}
-    </>
+    </div>
   )
 }
 

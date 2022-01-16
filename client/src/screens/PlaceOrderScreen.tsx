@@ -17,19 +17,17 @@ const PlaceOrderScreen = () => {
   cart.itemsPrice = addDecimals(cart.cartItems.reduce((acc: any, item: any) => Number(acc) + Number(item.price) * Number(item.quantity), 0));
   cart.shippingPrice = addDecimals(cart.cartItems > 100 ? 0 : 100);
   cart.taxPrice = addDecimals(Number((0.15 * cart.itemsPrice).toFixed(2)));
-  cart.totalPrice = Number(cart.itemsPrice) + Number(cart.shippingPrice) + Number(cart.taxPrice).toFixed(2);
+  cart.totalPrice = (Number(cart.itemsPrice) + Number(cart.shippingPrice) + Number(cart.taxPrice)).toFixed(2);
 
+  
   const orderCreate = useSelector((state: any) => state.orderCreate);
   const { order, success, error }  = orderCreate;
   
-  // useEffect(() => {
-  //   if(success) {
-  //     navigate(`/order/${order._id}`);
-  //   }
-  // }, [navigate, order._id, success]);
   useEffect(() => {
-    console.log(orderCreate);
-  }, [success]);
+    if(success) {
+      navigate(`/order/${order._id}`);
+    }
+  }, [navigate, success, order]);
 
   const placeOrderHandler = () => {
     dispatch(createOrder({
@@ -117,7 +115,8 @@ const PlaceOrderScreen = () => {
               <li className='list-group-item'>
                 <div className="row">
                   <div className="col">Total</div>
-                  <div className="col">${cart.totalPrice}</div>
+                  <div className="col">${cart.totalPrice}
+                  </div>
                 </div>
               </li>
               <li className='list-group-item'>
