@@ -6,10 +6,10 @@ CRUD and API e-commerce web application created with TypeScript, MongoDB.js, Exp
 Through this web app .
 
 - Main Page before login
-![MainPage_before_login](https://user-images.githubusercontent.com/37167797/126250654-9f98bb7a-99f0-49b3-9524-f43e68fa4058.png)
+
 
 - Main Page after login
-![MainPage_after_login](https://user-images.githubusercontent.com/37167797/126250673-87c2c3dd-6a50-44c8-a57b-c69322764b4c.png)
+
 
 # Description
 ## What's this project's aim? 
@@ -69,8 +69,8 @@ Through this web app .
 - React Redux
 - Sass
 - Bootstrap5
-- Visual Studio Code(Code Editor)
 - Jest (Unit Testing Framework)
+- Visual Studio Code(Code Editor)
 
 # Upcoming Features
 - 
