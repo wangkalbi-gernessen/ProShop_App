@@ -9,13 +9,15 @@ const PlaceOrderScreen = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const cart = useSelector((state: any) => state.cart);
+
+  // Calculate prices
   const addDecimals = (num: number) => {
     return (Math.round(num * 100)/100).toFixed(2);
-  } 
-  cart.itemPrice = addDecimals(cart.cartItems.reduce((acc: any, item: any) => Number(acc) + Number(item.price) * Number(item.quantity), 0));
+  }
+  cart.itemsPrice = addDecimals(cart.cartItems.reduce((acc: any, item: any) => Number(acc) + Number(item.price) * Number(item.quantity), 0));
   cart.shippingPrice = addDecimals(cart.cartItems > 100 ? 0 : 100);
-  cart.taxPrice = addDecimals(Number((0.15 * cart.itemPrice).toFixed(2)));
-  cart.totalPrice = Number(cart.itemPrice) + Number(cart.shippingPrice) + Number(cart.taxPrice).toFixed(2);
+  cart.taxPrice = addDecimals(Number((0.15 * cart.itemsPrice).toFixed(2)));
+  cart.totalPrice = Number(cart.itemsPrice) + Number(cart.shippingPrice) + Number(cart.taxPrice).toFixed(2);
 
   const orderCreate = useSelector((state: any) => state.orderCreate);
   const { order, success, error }  = orderCreate;
@@ -78,7 +80,7 @@ const PlaceOrderScreen = () => {
                           </Link>
                         </div>
                         <div className="col-md-4">
-                          {item.qty} x ${item.price} = ${Number(item.qty) * Number(item.price)}
+                          {item.qty} x ${item.price} = ${Number(item.quantity) * Number(item.price)}
                         </div>
                       </div>
                     </li>

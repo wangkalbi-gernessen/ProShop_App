@@ -11,6 +11,7 @@ import ProfileScreen from './screens/ProfileScreen';
 import ShippingScreen from './screens/ShippingScreen';
 import PaymentScreen from './screens/PaymentScreen';
 import PlaceOrderScreen from './screens/PlaceOrderScreen';
+import OrderScreen from './screens/OrderScreen';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <div className="container">
            {/* https://stackoverflow.com/questions/69866581/property-exact-does-not-exist-on-type */}
           <Routes>
+            <Route path='/order/:id' element={ <OrderScreen/> } />
             <Route path='/shipping' element={ <ShippingScreen/> } />
             <Route path='/payment' element={ <PaymentScreen/> } />
             <Route path='/placeorder' element={ <PlaceOrderScreen/> } />
