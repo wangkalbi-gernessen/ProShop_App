@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
 import { getUserDetails, updateUserProfile } from '../actions/userActions';
 import { listMyOrders } from '../actions/orderActions';
 
 const ProfileScreen = () => {
-  const { search } = useLocation();
   const navigate = useNavigate();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -40,6 +38,8 @@ const ProfileScreen = () => {
   }
   
   useEffect(() => {
+    console.log(loadingOrders);
+    console.log(errorOrders);
     if(!userInfo) {
       navigate('/login');
     } else {
@@ -50,7 +50,7 @@ const ProfileScreen = () => {
         setName(user.name);
         setEmail(user.email);
       }
-    }
+    } 
   }, [dispatch, navigate, userInfo, user]);
   
   return (
