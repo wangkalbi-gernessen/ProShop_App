@@ -6,7 +6,8 @@ import asyncHandler from "express-async-handler";
 declare global {
   namespace Express {
       interface Request {
-          user? : Record<string,any>
+          // user? : Record<string,any>
+          user? : String
       }
   }
 }

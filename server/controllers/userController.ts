@@ -6,7 +6,8 @@ import generateToken from '../utils/generateToken';
 declare global {
   namespace Express {
     interface Request {
-        user? : Record<string,any>
+        // user? : Record<string,any>
+        user? : String
     }
   }
 }

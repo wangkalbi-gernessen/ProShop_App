@@ -6,10 +6,13 @@ import asyncHandler from 'express-async-handler';
 declare global {
   namespace Express {
     interface Request {
-        user? : Record<string,any>
+        // user? : Record<string, any>
+        user? : String 
     }
   }
 }
+
+const ObjectID = require('bson-objectid');
 
 // @desc Create new order
 // @route Post /api/products
@@ -23,7 +26,8 @@ const addOrderItems = asyncHandler(async (req: Request, res: Response) => {
   } else {
     const order: any = new OrderModel({
       orderItems,
-      user: new mongoose.Types.ObjectId((req.user as any)._id),
+      //
+      user: (req.user as any)._id,
       shippingAddress,
       paymentMethod,
       itemsPrice,
@@ -41,8 +45,8 @@ const addOrderItems = asyncHandler(async (req: Request, res: Response) => {
 // @route GET /api/orders/:id
 // @access Private
 const getOrderById = asyncHandler(async (req: Request, res: Response) => {
-  const order: any = await OrderModel.findById(new mongoose.Types.ObjectId(req.params.id)).populate('user', 'name email');
-
+  const order: any = await OrderModel.findById(req.params.id).populate('user', 'name email');
+ 
   if(order) {
     res.json(order);
   } else {
@@ -55,7 +59,7 @@ const getOrderById = asyncHandler(async (req: Request, res: Response) => {
 // @route GET /api/orders/:id/pay
 // @access Private
 const updateOrderToPaid = asyncHandler(async (req: Request, res: Response) => {
-  const order: any = await OrderModel.findById(new mongoose.Types.ObjectId(req.params.id));
+  const order: any = await OrderModel.findById(req.params.id);
 
   if(order) {
     order.isPaid = true;
@@ -79,7 +83,7 @@ const updateOrderToPaid = asyncHandler(async (req: Request, res: Response) => {
 // @route GET /api/orders/myorders
 // @access Private
 const getMyOrders = asyncHandler(async (req: Request, res: Response) => {
-  
+
   const orders: any = await OrderModel.findById({ user: (req.user as any)._id});
   res.json(orders);
 });
