@@ -5,9 +5,9 @@ import generateToken from '../utils/generateToken';
 
 declare global {
   namespace Express {
-    interface Request {
-        // user? : Record<string,any>
-        user? : String
+    export interface Request {
+        user: Record<string, any>
+        // user: any 
     }
   }
 }
@@ -114,4 +114,12 @@ const updateUserProfile = asyncHandler(async (req: Request, res: Response) => {
   }
 });
 
-export { authUser, registerUser, getUserProfile, updateUserProfile }
+// @desc Get all users
+// @route GET /api/users
+// @access Private/Admin
+const getUsers = asyncHandler(async (req: Request, res: Response) => {
+  const users: any = await UserModel.find({ });
+  res.json(users);
+});
+
+export { authUser, registerUser, getUserProfile, updateUserProfile, getUsers }

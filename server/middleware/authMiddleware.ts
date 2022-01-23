@@ -5,10 +5,10 @@ import asyncHandler from "express-async-handler";
 
 declare global {
   namespace Express {
-      interface Request {
-          // user? : Record<string,any>
-          user? : String
-      }
+    export interface Request {
+        user: Record<string, any>
+        // user: any 
+    }
   }
 }
 
@@ -34,4 +34,13 @@ const protect = asyncHandler(async (req: Request, res: Response, next: NextFunct
   next();
 });
 
-export { protect }
+const admin = (req: Request, res: Response, next: NextFunction) => {
+  if(req.user && req.user.isAdmin) {
+    next();
+  } else {
+    res.status(401);
+    throw new Error('Not authorized as an admin');
+  }
+}
+
+export { protect, admin }

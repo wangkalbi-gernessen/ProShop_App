@@ -1,18 +1,15 @@
 import { Request, Response } from "express";
-import mongoose from 'mongoose';
+import mongoose, { Types, ObjectId } from 'mongoose';
 import OrderModel from "../models/orderModel";
 import asyncHandler from 'express-async-handler';
 
 declare global {
   namespace Express {
-    interface Request {
-        // user? : Record<string, any>
-        user? : String 
+    export interface Request {
+        user: Record<string, any>
     }
   }
 }
-
-const ObjectID = require('bson-objectid');
 
 // @desc Create new order
 // @route Post /api/products
@@ -22,12 +19,16 @@ const addOrderItems = asyncHandler(async (req: Request, res: Response) => {
 
   if(orderItems && orderItems.length === 0) {
     res.status(400);
-    throw new Error('No order items');
+    throw new Error('No order items');  
   } else {
+    const strObj: any = JSON.stringify((req.user as any)["_id"]);
+    // const strId = new mongoose.Types.ObjectId(strObj);
+    const strId: string = strObj.toString();  
+    const aby = new mongoose.Types.ObjectId(strId);
+
     const order: any = new OrderModel({
       orderItems,
-      //
-      user: (req.user as any)._id,
+      user: strId,
       shippingAddress,
       paymentMethod,
       itemsPrice,
@@ -83,9 +84,13 @@ const updateOrderToPaid = asyncHandler(async (req: Request, res: Response) => {
 // @route GET /api/orders/myorders
 // @access Private
 const getMyOrders = asyncHandler(async (req: Request, res: Response) => {
+  const strObj: any = JSON.stringify((req.user as any)["_id"]);
+  // const strId = new mongoose.Types.ObjectId(strObj);  
+  const strId: string = strObj.toString();  
+  const aby = new mongoose.Types.ObjectId(strId);
 
-  const orders: any = await OrderModel.findById({ user: (req.user as any)._id});
+  const orders: any = await OrderModel.findById({ user: strId });
   res.json(orders);
 });
 
-export { addOrderItems, getOrderById, updateOrderToPaid, getMyOrders }; 
+export { addOrderItems, getOrderById, updateOrderToPaid, getMyOrders };   

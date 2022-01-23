@@ -35,24 +35,40 @@ const Header = (props: any) => {
                 </a>
               </li>
               { userInfo ? (
-              <div className="dropdown">
-                <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" onClick={toggleDropdownOpen}>{userInfo.name}</button>
-                <ul className={`dropdown-menu ${dropdown ? 'show' : ' '}`} aria-labelledby="dropdownMenuButton1">
-                  <li>
-                    <a className="dropdown-item" href='/profile'>Profile</a>
-                  </li>
-                  <li>
-                    <a className="dropdown-item" onClick={logoutHandler} href='/'>Logout</a>
-                  </li>
-                </ul>
-              </div>
-              ) : 
+                <div className="dropdown">
+                  <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" onClick={toggleDropdownOpen}>{userInfo.name}</button>
+                  <ul className={`dropdown-menu ${dropdown ? 'show' : ' '}`} aria-labelledby="dropdownMenuButton1">
+                    <li>
+                      <a className="dropdown-item" href='/profile'>Profile</a>
+                    </li>
+                    <li>
+                      <a className="dropdown-item" onClick={logoutHandler} href='/'>Logout</a>
+                    </li>
+                  </ul>
+                </div>
+              ) : (
               <li className="nav-item">
                 <a className="nav-link" href="/login">
                   <i className='fas fa-user'>Sign In</i>
                 </a>
               </li>
-              }
+              )}
+              { userInfo && userInfo.isAdmin && (
+                <div className="dropdown">
+                <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" onClick={toggleDropdownOpen}>{userInfo.name}</button>
+                <ul className={`dropdown-menu ${dropdown ? 'show' : ' '}`} aria-labelledby="dropdownMenuButton1">
+                  <li>
+                    <a className="dropdown-item" href='/admin/userlist'>Users</a>
+                  </li>
+                  <li>
+                    <a className="dropdown-item" href='/admin/productlist'>Products</a>
+                  </li>
+                  <li>
+                    <a className="dropdown-item" href='/admin/orderlist'>Orders</a>
+                  </li>
+                </ul>
+               </div>
+              )}
             </ul>
           </div>
         </div>

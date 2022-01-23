@@ -41,12 +41,14 @@
   },
   "dependencies": {
     "@types/jsonwebtoken": "^8.5.6",
+    "@types/mongodb": "^4.0.7",
     "bcryptjs": "^2.4.3",
     "bson-objectid": "^2.0.2",
     "colorts": "^0.1.63",
     "dotenv": "^10.0.0",
     "express": "^4.17.2",
     "express-async-handler": "^1.2.0",
-    "jsonwebtoken": "^8.5.1"
+    "jsonwebtoken": "^8.5.1",
+    "mongodb": "^4.3.1"
   }
 }
