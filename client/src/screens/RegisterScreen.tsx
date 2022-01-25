@@ -22,6 +22,12 @@ const RegisterScreen = () => {
   const { loading, error, userInfo } = userRegister;
   
   const redirect = search ? search.split('=')[1] : '/';
+  
+  useEffect(() => {
+    if(userInfo) {
+      navigate(redirect);
+    }
+  }, [navigate, userInfo, redirect]);
 
   const submitHandler = (e: any) => {
     e.preventDefault();
@@ -31,12 +37,6 @@ const RegisterScreen = () => {
       dispatch(register(name, email, password));
     }
   }
-  
-  useEffect(() => {
-    if(userInfo) {
-      navigate(redirect);
-    }
-  }, [navigate, userInfo, redirect]);
   
   return (
     <div className="container">
